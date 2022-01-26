@@ -6,25 +6,40 @@
 
 long arr[MAXARR];
 
-int main(void){
-	long N {},Q{};
-	std::cin>>N>>Q;
-	std::vector<long> items {};
-	for(long i = 0;i<N;i++){
-		long input{};
-		std::cin>>input;
-		arr[i] = input;
-        std::cout<<"Hello";
-	}
-    // std::cout<<"Done"<<std::endl;
 
-	for(long i = 1;i<=Q;i++){
-		long X{},Y{};
-		std::cin>>X>>Y;
-		long j {};
-		for(j = 0;items.at(X-1) + Y >= items.at(j);++j){
-            //std::cout<<"j = "<<j<<std::endl;
-        }
-		std::cout<<j<<std::endl;
+int binarySearch(int start,int stop,int num);
+
+int main(void){
+	int N,Q;
+	std::cin>>N>>Q;
+	for(int i = 0;i<N;++i){
+		std::cin>>arr[i];
 	}
+	for(int i  = 0;i<Q;++i){
+		int px,x;
+		std::cin>>px>>x;
+		int ans = binarySearch(0,N-1,arr[px-1] + x);
+		if(ans >= N){
+			ans = N - 1;
+		}
+		std::cout<<ans+ 1<<std::endl;
+	}
+	return 0;
 }
+
+int binarySearch(int start,int stop,int num){	
+	if(stop < start){
+		if(arr[start] > num)
+			return start - 1;
+		return start;
+	}
+	int mid = (start + stop)/2;
+
+	if(num > arr[mid]){
+		return binarySearch(mid + 1,stop,num);
+	}else if(num < arr[mid]){
+		return binarySearch(start,mid - 1,num);
+	}else{
+		return mid;
+	}
+}	
