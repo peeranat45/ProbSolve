@@ -1,8 +1,8 @@
 #include <iostream>
-#include <list>
 #include <vector>
-#include <algorithm>
+#include <list>
 #include <queue>
+#include <array>
 
 class node_t{
     public:
@@ -10,81 +10,61 @@ class node_t{
     int height;
 };
 
-void printGraph(std::vector<node_t> node_list,std::vector<std::list<int>> graph);
-
 int main(void){
     int N{},K{};
     std::cin>>N>>K;
-    std::vector<std::list<int>> graph{};
-    std::vector<node_t> node_list{};
-    graph.resize(N*N);
-    int indexGraph {0};
+    std::vector<std::vector<int>> map{};
+    map.resize(N);
     for(int i = 0;i<N;++i){
         for(int j = 0;j<N;++j){
-            int height{};
-            std::cin>>height;
-            node_list.push_back({indexGraph,height});
-            //std::cout<<"indexGraph = "<<indexGraph<<std::endl;
-            
-            if(indexGraph - N >= 0){ ///add upper and down
-                if(node_list.at(indexGraph - N).height < node_list.at(indexGraph).height || ((node_list.at(indexGraph - N).height - node_list.at(indexGraph).height) <= K)){
-                   // printf("Up,down\n");
-                    graph.at(indexGraph).push_back(indexGraph - N);
-                    if(node_list.at(indexGraph).height - node_list.at(indexGraph - N).height <= K)
-                        graph.at(indexGraph - N).push_back(indexGraph);
-                }
-            }
-            //printf("F\n");
-           // add left and right
-            if(indexGraph%4 != 0){
-                if(node_list.at(indexGraph - 1).height < node_list.at(indexGraph).height || node_list.at(indexGraph - 1).height - node_list.at(indexGraph).height <= K){
-                    //printf("Left,right\n");
-                    graph.at(indexGraph).push_back(indexGraph - 1);
-                    if(node_list.at(indexGraph).height - node_list.at(indexGraph - 1).height <= K)
-                        graph.at(indexGraph - 1).push_back(indexGraph);
-                }
-            }
-            
-            indexGraph++;
+            int input{};
+            std::cin>>input;
+            map.at(i).push_back(input);
         }
-        
     }
-    //printGraph(node_list,graph);
 
-    //bfs
-    std::vector<int> visited{};
-    visited.resize(N*N);
+    std::vector<std::list<node_t>> graph{};
+    graph.resize(N*N);
+
+    int node_index{0};
+
+    for(int i = 0;i<N;++i){
+        for(int j = 0;j<N;++j){                             //up down left right
+            if((i - 1) >= 0 && map.at(i-1).at(j) <= map.at(i).at(j) + K){
+                graph.at(node_index).push_back({node_index - N,map.at(i-1).at(j)});
+            }
+            if((i + 1 < N) && map.at(i + 1).at(j) <= map.at(i).at(j) + K){
+                graph.at(node_index).push_back({node_index + N,map.at(i+1).at(j)});
+            }
+            if((j - 1 >= 0) && map.at(i).at(j-1) <= map.at(i).at(j) + K){
+                graph.at(node_index).push_back({node_index - 1,map.at(i).at(j-1)});
+            }
+            if((j + 1 < N) && map.at(i).at(j + 1) <= map.at(i).at(j) + K){
+                graph.at(node_index).push_back({node_index + 1,map.at(i).at(j+1)});
+            }
+            node_index++;
+        }
+    }
+    
+    std::array<int,400> visited{};
     std::queue<int> Q{};
     Q.push(0);
     while(!Q.empty()){
-        
-        int n = Q.front();
-       // printf("n = %d ",n);
-        //printf("G");
-        if(n == (N*N) - 1 ){
-            std::cout<<"yes\n";
-            return 0;
-        }
-        if(visited.at(n) != 1){
-            visited.at(n) = 1;
-            for(auto index : graph.at(n)){
-                Q.push(index);
+        int u = Q.front();
+        if(visited[u] == 0){
+            //printf("u = %d\n",u);
+            visited[u] = 1;
+            for(auto node : graph.at(u)){
+                if(node.height == map[N-1][N-1]){
+                    std::cout<<"yes\n";
+                    return 0;
+                }
+                Q.push(node.index);
             }
-
         }
         Q.pop();
     }
-    printf("no\n");
+    std::cout<<"no\n";
+
     return 0;
-}
-
-
-void printGraph(std::vector<node_t> node_list,std::vector<std::list<int>> graph){
-    for(auto node : node_list){
-        std::cout<<node.index<<" : ";
-        for(auto num : graph.at(node.index)){
-            std::cout<<num<<"->";
-        }
-        std::cout<<std::endl;
-    }
 }
