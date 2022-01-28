@@ -2,6 +2,8 @@
 #include <vector>
 #include <algorithm>
 
+
+
 class work{
     public:
         int fs;
@@ -31,5 +33,8 @@ int main(void){
             count++;
         }
     }
+
     std::cout<<count<<std::endl;
 }
+
+
