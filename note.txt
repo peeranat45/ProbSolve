@@ -3,5 +3,5 @@
 40% 1
 20% 2
 ยังไม่ทำ 5
-extra but ยังไม่ทำ 17
-extra but 100% 2
+extra but ยังไม่ทำ 14
+extra but 100% 5
