@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 int main(void){
     int X{};
@@ -13,6 +14,8 @@ int main(void){
         years.push_back(input);
         std::cin>>input;
     }
+
+    std::sort(years.begin(),years.end());
     for(int i = 2558;i<X;++i){
         if(!years.empty() && years.at(0) == i){
             years.erase(years.begin());
