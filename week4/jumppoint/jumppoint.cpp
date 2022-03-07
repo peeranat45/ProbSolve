@@ -4,13 +4,15 @@
 #include <math.h>
 #include <queue>
 
-class node_t{
+class node_t{  
     public:
     int index;
     int x;
     int y;
     int level;
     int visited;
+
+    
 };
 
 void insertGraph(std::vector<node_t> &node_list,std::vector<std::list<int>> &graph,node_t new_node,int max_dis);
