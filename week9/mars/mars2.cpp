@@ -13,6 +13,9 @@ int main(void){
         std::cin>>texts.at(i);
     }
 
+
 }
+
+int opt()
 
 
