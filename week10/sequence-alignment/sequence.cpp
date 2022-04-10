@@ -1,13 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
-const int infiniti = 999999999;
+//const int infiniti = 999999999;
 
 int main(void){
     std::string X{};
     std::string Y{};
     std::cin>>X>>Y;
+
+    //Build table
     std::vector<std::vector<int>> opt{};
     opt.resize(X.size()+1);
     for(int i = 0;i<opt.size();++i){
@@ -19,11 +22,13 @@ int main(void){
         opt.at(0).at(i) = i;
     }
 
+
+    //Find OPT
     // std::cout<<20<<std::endl;
     for(int j = 1;j<=Y.size();++j){
         for(int i = 1;i<=X.size();++i){
             int min = 0;
-            if(1 + opt.at(i-1).at(j) > 1 + opt.at(i).at(j-1)){
+            if(1 + opt.at(i-1).at(j) > 1 + opt.at(i).at(j-1)){ //check  สอง เงื่อนไขล่าง
                 min = 1 + opt.at(i).at(j-1);
             }else{
                 min = 1 + opt.at(i-1).at(j);

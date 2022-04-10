@@ -1,12 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <list>
 
 
-class match{
-    public:
-    int A;
-    int B;
-};
 int main(void){
     int N{},M{};
     std::cin>>N>>M;
@@ -15,25 +11,25 @@ int main(void){
     for(int i = 1;i<=N;++i){
         colors.at(i) = -1;
     }
-    std::vector<match> matches{};
-    std::vector<int> counts{};
-    counts.resize(100010);
-    for(int i = 0;i<M;++i){
-        int A{},B{};
-        std::cin>>A>>B;
-        matches.push_back({A,B});
-        counts.at(A) += 1;
-        counts.at(B) += 1;
-    }
-    
-
-
     int count{0};
+    std::vector<std::list<int>> graph{};
+    graph.resize(N+1);
     //printf("Hello World\n");
     for(int i = 0;i<M;++i){
         int A{},B{};
+        bool matched = false;
         std::cin>>A>>B;
         //printf("A = %d, B = %d\n",colors.at(A),colors.at(B));
+        if(A == B){
+            break;
+        }
+        for(auto num : graph.at(A)){
+            if(num == B)
+                matched = true;
+        }   
+        if(matched){
+            break;
+        }
         if(colors.at(A) == -1 && colors.at(B) == -1){
             colors.at(A) = 0;
             colors.at(B) = 1;
@@ -42,7 +38,7 @@ int main(void){
         }else if(colors.at(B) == -1){
             colors.at(B) = (colors.at(A) + 1) % 2;
         }else if(colors.at(A) == colors.at(B)){
-            continue;;
+            continue;
         }
         count++;
     }
