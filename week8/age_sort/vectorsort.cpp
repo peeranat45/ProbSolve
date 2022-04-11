@@ -3,7 +3,6 @@
 
 #define MAX_ARR 100010
 //Global
-long long count = 0;
 long long array[MAX_ARR];
 
 
@@ -23,13 +22,12 @@ int main(void){
         A.push_back(input);
     }
     inversionSort(A,0,N-1);
-    std::cout<<count<<std::endl;
+    
 
 }
 
 //Function Implement
 std::vector<long long> inversionSort(std::vector<long long> A,long long start,long long stop){
-    // printf("Start = %lld,stop = %lld\n",start,stop);
     if(start >= stop){
         std::vector<long long> temp{};
         temp.push_back(A.at(start));
@@ -48,30 +46,19 @@ std::vector<long long> merge(std::vector<long long> left,std::vector<long long> 
     
     long long index_left = 0;
     long long index_right = 0;
-    int multiplier = 0;
     std::vector<long long> sorted {};
     while(index_left != (long long)left.size() || index_right != (long long)right.size()){
-        // printf("Multiplier = %d\n",multiplier);
-       // prlong longf("Index_left = %d, Index_right = %d\n",index_left,index_right);
         if(index_right == (long long)right.size()){
             sorted.insert(sorted.end(),left.begin(),left.end());
-            count+=multiplier*(left.size() - index_left);
-            // sorted.push_back(left.at(index_left));
-            // index_left++;
             return sorted;
         }else if(index_left == (long long)left.size()){
             sorted.insert(sorted.end(),right.begin(),right.end());
-            // sorted.push_back(right.at(index_right));
-            // index_right++;
             return sorted;
         }
-        else if(left.at(index_left) > right.at(index_right)){  //inverse
-            multiplier++;
-            // count += temp_count * multiplier;
+        else if(left.at(index_left) > right.at(index_right)){ 
             sorted.push_back(right.at(index_right));
             index_right++;
         }else{
-            count += multiplier;
             sorted.push_back(left.at(index_left));
             index_left++;
         }
