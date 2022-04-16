@@ -6,8 +6,8 @@ def mapping(arr):
 
 f = open("note.txt","r")
 a = f.readlines()
-result = map(mapping,a)
-result = list(result)
+result = list(map(mapping,a))
+# result = list(result)
 
 print(result)
 score = 0
